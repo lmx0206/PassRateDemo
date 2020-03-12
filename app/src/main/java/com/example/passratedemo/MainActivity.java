@@ -1,11 +1,12 @@
 package com.example.passratedemo;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private WebView wb_web;
     private String url = "http://192.168.1.111:8085/dataInterface/PassRate/getAll";
     private List<Integer> list = new ArrayList<>();
+    private RadioGroup rg_group;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +45,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         wb_web.getSettings().setUseWideViewPort(true);
         wb_web.getSettings().setLoadWithOverviewMode(true);
         wb_web.loadUrl("file:///android_asset/echart.html");
+        rg_group = (RadioGroup) findViewById(R.id.rg_group);
+        rg_group.setOnCheckedChangeListener(((group, checkedId) -> {
+           switch (checkedId) {
+               case 1:
+                   showBar();
+                   break;
+               case 2:
+                   showPie();
+                   break;
+           }
+        }));
     }
 
     @Override
@@ -68,9 +81,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     list.add(passRate.getData().get(i).getRate());
                 }
                 String dataArray = Arrays.toString(list.toArray());
-                runOnUiThread(() -> wb_web.post(() -> wb_web.loadUrl("javaScript:showData(" + dataArray + ")")));
+                Log.d("MainActivity", dataArray);
+                runOnUiThread(() -> wb_web.post(() -> wb_web.loadUrl("javaScript:showBar(" + dataArray + ")")));
             }
         });
+    }
+
+    private void showBar(){
+        if (!list.isEmpty()) {
+            String dataArray = Arrays.toString(list.toArray());
+            runOnUiThread(() -> wb_web.post(() -> wb_web.loadUrl("javaScript:showBar(" + dataArray + ")")));
+            Log.d("MainActivity", "执行bar");
+        }
+    }
+
+    private void showPie() {
+        int a, b, c;
+        if (!list.isEmpty()) {
+            a = list.get(0);
+            b = list.get(1);
+            c = list.get(2);
+            runOnUiThread(() -> wb_web.post(() -> wb_web.loadUrl("javaScript:showPie(" + a + "," + b + "," + c + ")")));
+            Log.d("MainActivity", "执行pie");
+        }
     }
 
 }

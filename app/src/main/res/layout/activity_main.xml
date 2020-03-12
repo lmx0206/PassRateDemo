@@ -34,4 +34,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
+    <RadioGroup
+        android:id="@+id/rg_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="柱状图"/>
+
+        <RadioButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="饼状图"/>
+
+    </RadioGroup>
+
 </LinearLayout>
