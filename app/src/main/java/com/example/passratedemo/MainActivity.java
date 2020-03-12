@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         wb_web.getSettings().setLoadWithOverviewMode(true);
         wb_web.loadUrl("file:///android_asset/echart.html");
         rg_group = (RadioGroup) findViewById(R.id.rg_group);
+        rg_group.getChildAt(0).performClick();
         rg_group.setOnCheckedChangeListener(((group, checkedId) -> {
            switch (checkedId) {
                case 1:
@@ -81,7 +82,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     list.add(passRate.getData().get(i).getRate());
                 }
                 String dataArray = Arrays.toString(list.toArray());
-                Log.d("MainActivity", dataArray);
                 runOnUiThread(() -> wb_web.post(() -> wb_web.loadUrl("javaScript:showBar(" + dataArray + ")")));
             }
         });
@@ -91,7 +91,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (!list.isEmpty()) {
             String dataArray = Arrays.toString(list.toArray());
             runOnUiThread(() -> wb_web.post(() -> wb_web.loadUrl("javaScript:showBar(" + dataArray + ")")));
-            Log.d("MainActivity", "执行bar");
         }
     }
 
@@ -102,7 +101,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             b = list.get(1);
             c = list.get(2);
             runOnUiThread(() -> wb_web.post(() -> wb_web.loadUrl("javaScript:showPie(" + a + "," + b + "," + c + ")")));
-            Log.d("MainActivity", "执行pie");
         }
     }
 
